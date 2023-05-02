@@ -6,3 +6,4 @@ target
 .idea
 .DS_Store
 redisdata/
+src/main/resources/dashboard/package-lock.json
