@@ -4,6 +4,7 @@ import com.redislabs.university.RU102J.api.Site;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Pipeline;
+import redis.clients.jedis.Response;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -42,19 +43,19 @@ public class SiteDaoRedisImpl implements SiteDao {
 
     // Challenge #1
     @Override
-    @SuppressWarnings( "unchecked" )
     public Set<Site> findAll() {
-        List<Object> rawSites;
+        List<Response<Map<String,String>>> rawSites = new ArrayList<>();
         try (Jedis jedis = jedisPool.getResource()) {
             String siteIdKey = RedisSchema.getSiteIDsKey();
             Set<String> siteKeys = jedis.smembers( siteIdKey );
             Pipeline pipeline = jedis.pipelined();
             for (String key : siteKeys) {
-                pipeline.hgetAll( key );
+                rawSites.add(pipeline.hgetAll( key ) );
             }
-            rawSites = pipeline.syncAndReturnAll();
+            pipeline.sync();
         }
-        return rawSites.stream().map(o -> (Map<String,String>) o)
+        return rawSites.stream()
+                .map(Response::get)
                 .filter(site -> Objects.nonNull(site) && !site.isEmpty() )
                 .map( Site::new )
                 .collect( Collectors.toSet());
