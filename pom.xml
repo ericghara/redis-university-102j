@@ -10,7 +10,7 @@
     </prerequisites>
 
     <groupId>com.redislabs.university</groupId>
-    <artifactId>redisolar</artifactId>
+    <artifactId>redissolar</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 
