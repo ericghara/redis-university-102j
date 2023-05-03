@@ -31,7 +31,7 @@ public class RateLimiterSlidingDaoRedisImplTest {
             jedis.auth(password);
         } else {
             jedisPool = new JedisPool(HostPort.getRedisHost(), HostPort.getRedisPort());
-            jedis = new Jedis(HostPort.getRedisHost(), HostPort.getRedisPort());    
+            jedis = new Jedis(HostPort.getRedisHost(), HostPort.getRedisPort());
         }
         keyManager = new TestKeyManager("test");
     }
@@ -47,7 +47,6 @@ public class RateLimiterSlidingDaoRedisImplTest {
         keyManager.deleteKeys(jedis);
     }
 
-    @Ignore
     @Test
     public void hit() {
         int exceptionCount = 0;
@@ -64,7 +63,6 @@ public class RateLimiterSlidingDaoRedisImplTest {
         assertThat(exceptionCount, is(0));
     }
 
-    @Ignore
     @Test
     public void hitOutsideLimit() {
         int exceptionCount = 0;
@@ -81,7 +79,6 @@ public class RateLimiterSlidingDaoRedisImplTest {
         assertThat(exceptionCount, is(2));
     }
 
-    @Ignore
     @Test
     public void hitOutsideWindow() throws InterruptedException {
         int exceptionCount = 0;

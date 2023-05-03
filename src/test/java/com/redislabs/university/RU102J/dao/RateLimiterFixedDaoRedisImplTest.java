@@ -49,6 +49,7 @@ public class RateLimiterFixedDaoRedisImplTest {
 
     @After
     public void flush() {
+        System.out.println(jedis.keys("test:*"));
         keyManager.deleteKeys(jedis);
     }
 
